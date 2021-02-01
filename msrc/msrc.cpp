@@ -735,6 +735,11 @@ void setup()
     SMARTPORT_SRXL_SERIAL.setTimeout(SRXLSERIAL_TIMEOUT);
     srxl.begin();
 #endif
+#if RX_PROTOCOL == RX_IBUS
+    SMARTPORT_SRXL_SERIAL.begin(115200);
+    SMARTPORT_SRXL_SERIAL.setTimeout(IBUSSERIAL_TIMEOUT);
+    ibus.begin();
+#endif
 #if defined(CONFIG_LUA) && RX_PROTOCOL == RX_SMARTPORT
     Config config = readConfig();
 #else
@@ -774,5 +779,9 @@ void loop()
 #if RX_PROTOCOL == RX_SRXL
     srxl.update();
     srxl.checkSerial();
+#endif
+#if RX_PROTOCOL == RX_IBUS
+    ibus.update();
+    //ibus.checkSerial();
 #endif
 }
